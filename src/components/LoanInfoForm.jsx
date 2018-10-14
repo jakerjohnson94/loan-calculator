@@ -16,12 +16,38 @@ class LoanInfoForm extends Component {
     loanAmnt: '',
     purchasePrice: '',
     buyer: '',
-    seller: ''
+    seller: '',
+    basicRate: 0
   };
   handleChange = name => event => {
     this.setState({
       [name]: event.target.value
     });
+  };
+
+  handleSubmit = () => {
+    //rates on every 1,000 dollars
+    const under50Rate = 0.0035;
+    const between50and100Rate = 0.003;
+    const between100and500Rate = 0.002;
+    const loanAmnt = this.state.loanAmnt;
+
+    let basicRate = 0;
+    if (loanAmnt <= 50000 && loanAmnt * under50Rate <= 100) basicRate = 100;
+    else if (loanAmnt <= 50000 && loanAmnt * under50Rate > 100)
+      basicRate = loanAmnt * under50Rate;
+
+    if (loanAmnt > 50000 && loanAmnt <= 100000) {
+      let difference = (loanAmnt - 50000) * between50and100Rate;
+      basicRate = difference + 50000 * under50Rate;
+    }
+
+    if (loanAmnt > 100000 && loanAmnt <= 500000) {
+      let difference = (loanAmnt - 100000) * between100and500Rate;
+      basicRate =
+        difference + 50000 * under50Rate + 50000 * between50and100Rate;
+    }
+    return this.setState({ basicRate: Math.ceil(basicRate) });
   };
   render() {
     return (
@@ -82,7 +108,7 @@ class LoanInfoForm extends Component {
             />
           </Grid>
           <Grid item xs={12} style={{ textAlign: 'center' }}>
-            <Button>Next</Button>
+            <Button onClick={this.handleSubmit}>Next</Button>
           </Grid>
         </Grid>
       </form>
