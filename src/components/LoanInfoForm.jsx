@@ -9,6 +9,7 @@ import {
   Button,
   Grid
 } from '@material-ui/core';
+import './LoanInfoForm.css';
 class LoanInfoForm extends Component {
   state = {
     propertyAddress: '',
@@ -24,9 +25,10 @@ class LoanInfoForm extends Component {
   };
   render() {
     return (
-      <form className="loanInfoForm" style={{ display: 'flex' }}>
-        <Grid container alignContent="center">
+      <form className="loanInfoForm">
+        <Grid container justify="center">
           <TextField
+            className="formInput"
             id="propertyAdress"
             label="Property Address"
             value={this.state.propertyAddress}
@@ -34,7 +36,7 @@ class LoanInfoForm extends Component {
             fullWidth
           />
 
-          <FormControl fullWidth>
+          <FormControl fullWidth className="formInput">
             <InputLabel htmlFor="loanAmnt">Loan Amount</InputLabel>
             <Input
               id="loanAmnt"
@@ -48,7 +50,7 @@ class LoanInfoForm extends Component {
             />
           </FormControl>
 
-          <FormControl fullWidth>
+          <FormControl fullWidth className="formInput">
             <InputLabel htmlFor="adornment-amount">Purchase Price</InputLabel>
             <Input
               id="purchasePrice"
@@ -63,6 +65,7 @@ class LoanInfoForm extends Component {
           </FormControl>
           <Grid item xs={6}>
             <TextField
+              className="formInput"
               id="buyer"
               label="Buyer Name (optional)"
               value={this.state.buyer}
@@ -71,13 +74,14 @@ class LoanInfoForm extends Component {
           </Grid>
           <Grid item xs={6}>
             <TextField
+              className="formInput"
               id="seller"
               label="Seller Name (optional)"
               value={this.state.seller}
               onChange={this.handleChange('seller')}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} style={{ textAlign: 'center' }}>
             <Button>Next</Button>
           </Grid>
         </Grid>

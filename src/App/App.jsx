@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-// import { Typography } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import './App.css';
 import LoanInfoForm from '../components/LoanInfoForm';
 const theme = createMuiTheme({
@@ -15,7 +15,16 @@ class App extends Component {
   render() {
     return (
       <MuiThemeProvider theme={theme}>
-        <LoanInfoForm />
+        <Grid
+          container
+          className="mainGrid"
+          direction="column"
+          alignItems="center"
+        >
+          <Grid item xs={8}>
+            <LoanInfoForm />
+          </Grid>
+        </Grid>
       </MuiThemeProvider>
     );
   }
