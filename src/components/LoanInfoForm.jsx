@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
+import { storeFormInfo } from '../redux/loanFormActions';
 import {
   InputAdornment,
   TextField,
@@ -12,16 +13,22 @@ import {
 import './LoanInfoForm.css';
 class LoanInfoForm extends Component {
   state = {
-    propertyAddress: '',
-    loanAmnt: '',
-    purchasePrice: '',
-    buyer: '',
-    seller: '',
-    basicRate: 0
+    loanData: {
+      propertyAddress: '',
+      loanAmnt: 100000,
+      purchasePrice: 0.00,
+      buyer: '',
+      seller: '',
+    },
+    basicRate: 0,
+    
   };
   handleChange = name => event => {
     this.setState({
-      [name]: event.target.value
+      loanData: {
+        ...this.state.loanData,
+        [name]: event.target.value
+      }
     });
   };
 
@@ -30,7 +37,7 @@ class LoanInfoForm extends Component {
     const under50Rate = 0.0035;
     const between50and100Rate = 0.003;
     const between100and500Rate = 0.002;
-    const loanAmnt = this.state.loanAmnt;
+    const loanAmnt = this.state.loanData.loanAmnt;
 
     let basicRate = 0;
     if (loanAmnt <= 50000 && loanAmnt * under50Rate <= 100) basicRate = 100;
@@ -47,7 +54,8 @@ class LoanInfoForm extends Component {
       basicRate =
         difference + 50000 * under50Rate + 50000 * between50and100Rate;
     }
-    return this.setState({ basicRate: Math.ceil(basicRate) });
+    this.setState({  basicRate: Math.ceil(basicRate)  });
+    this.props.storeLoanInfo(this.state.loanData, basicRate);
   };
   render() {
     return (
@@ -57,7 +65,7 @@ class LoanInfoForm extends Component {
             className="formInput"
             id="propertyAdress"
             label="Property Address"
-            value={this.state.propertyAddress}
+            value={this.state.loanData.propertyAddress}
             onChange={this.handleChange('propertyAddress')}
             fullWidth
           />
@@ -67,8 +75,8 @@ class LoanInfoForm extends Component {
             <Input
               id="loanAmnt"
               type="number"
-              value={this.state.loanAmnt}
-              placeholder={'0.00'}
+              value={this.state.loanData.loanAmnt}
+
               onChange={this.handleChange('loanAmnt')}
               startAdornment={
                 <InputAdornment position="start">$</InputAdornment>
@@ -81,8 +89,8 @@ class LoanInfoForm extends Component {
             <Input
               id="purchasePrice"
               type="number"
-              value={this.state.purchasePrice}
-              placeholder={'0.00'}
+              value={this.state.loanData.purchasePrice}
+
               onChange={this.handleChange('purchasePrice')}
               startAdornment={
                 <InputAdornment position="start">$</InputAdornment>
@@ -94,7 +102,7 @@ class LoanInfoForm extends Component {
               className="formInput"
               id="buyer"
               label="Buyer Name (optional)"
-              value={this.state.buyer}
+              value={this.state.loanData.buyer}
               onChange={this.handleChange('buyer')}
             />
           </Grid>
@@ -103,7 +111,7 @@ class LoanInfoForm extends Component {
               className="formInput"
               id="seller"
               label="Seller Name (optional)"
-              value={this.state.seller}
+              value={this.state.loanData.seller}
               onChange={this.handleChange('seller')}
             />
           </Grid>
@@ -115,5 +123,20 @@ class LoanInfoForm extends Component {
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    ...state
+  };
+};
 
-export default LoanInfoForm;
+const mapDispatchToProps = dispatch => {
+  return {
+    storeLoanInfo: (loanData, basicRate) => {
+      dispatch(storeFormInfo(loanData, basicRate));
+    }
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LoanInfoForm);
