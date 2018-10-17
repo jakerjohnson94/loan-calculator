@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { storeFormInfo } from '../../redux/loanFormActions';
+import history from '../../history'
 import {
   InputAdornment,
   TextField,
@@ -10,8 +11,9 @@ import {
   Button,
   Grid
 } from '@material-ui/core';
-import { calculateBasicRate } from '../../functions';
+
 import './LoanInfoForm.css';
+
 class LoanInfoFormContent extends Component {
   state = {
     loanData: {
@@ -55,10 +57,9 @@ class LoanInfoFormContent extends Component {
         difference + 50000 * under50Rate + 50000 * between50and100Rate;
     }
     basicRate = Math.ceil(basicRate);
-    // this.setState({
-    //   basicRate: calculateBasicRate(this.props.loanData.loanAmnt)
-    // });
+
     this.props.storeLoanInfo(this.state.loanData, basicRate);
+    history.push('/userInfoForm')
   };
   render() {
     return (
@@ -124,11 +125,12 @@ class LoanInfoFormContent extends Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    ...state
-  };
-};
+   loanData: state.loan,
+   userInfo: state.client
+  }
+}
 
 const mapDispatchToProps = dispatch => {
   return {

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux'
 import { Grid } from '@material-ui/core';
 import LoanInfoFormContent from './LoanInfoFormContent';
 class LoanInfoFormLayout extends Component {
@@ -17,5 +18,11 @@ class LoanInfoFormLayout extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+   loanData: state.loan,
+   userInfo: state.client
+  }
+}
 
-export default LoanInfoFormLayout;
+export default connect(mapStateToProps)(LoanInfoFormLayout);
