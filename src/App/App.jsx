@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
+import {Switch, Route} from 'react-router-dom'
 import './App.css';
-import LoanInfoForm from '../components/LoanInfoForm';
+import LoanInfoFormLayout from '../components/LoanInfoForm/LoanInfoFormLayout';
+import UserInfoFormLayout from '../components/UserInfoForm/UserInfoFormLayout'
 const theme = createMuiTheme({
   palette: {
     type: 'light'
@@ -15,16 +17,12 @@ class App extends Component {
   render() {
     return (
       <MuiThemeProvider theme={theme}>
-        <Grid
-          container
-          className="mainGrid"
-          direction="column"
-          alignItems="center"
-        >
-          <Grid item xs={8}>
-            <LoanInfoForm />
-          </Grid>
-        </Grid>
+      <Switch>
+       <Route exact path='/' component={LoanInfoFormLayout}></Route>
+        <Route path='/loanInfoForm' component={LoanInfoFormLayout}></Route>
+        <Route path='/userInfoForm' component={UserInfoFormLayout}></Route>
+ 
+      </Switch>
       </MuiThemeProvider>
     );
   }
