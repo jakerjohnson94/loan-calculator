@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
+import {storeClientInfo} from '../../redux/clientFormActions'
 
 import {
     InputAdornment,
@@ -11,9 +12,9 @@ import {
     Grid
   } from '@material-ui/core';
   
-  class UserInfoFormContent extends Component {
+  class ClientInfoFormContent extends Component {
     state = { 
-      userInfo:{
+      clientInfo:{
         name:'',
         email: '',
         phone:'',
@@ -21,21 +22,26 @@ import {
      }
     handleChange = name => event => {
       this.setState({
-        userInfo: {
-          ...this.state.userInfo,
+        clientInfo: {
+          ...this.state.clientInfo,
           [name]: event.target.value
         }
       });
+      console.log(this.state.clientInfo)
     };
+    handleSubmit = (event)=>{
+      event.preventDefault()
+      this.props.storeClientInfo(this.state.clientInfo)
+    }
     render() { 
       return ( 
-        <form className="UserInfoFormContent">
+        <form className="ClientInfoFormContent">
         <Grid container justify="center">
           <TextField
             className="formInput"
             id="name"
             label="name"
-            value={this.state.userInfo.name}
+            value={this.state.clientInfo.name}
             onChange={this.handleChange('name')}
             fullWidth
           />
@@ -44,10 +50,11 @@ import {
             id="email"
             label="email"
             type='email'
-            value={this.state.userInfo.email}
+            value={this.state.clientInfo.email}
             onChange={this.handleChange('email')}
             fullWidth
           />
+          <Button type='submit' onClick={this.handleSubmit}>Submit</Button>
         </Grid>
       </form>
        );
@@ -56,7 +63,14 @@ import {
   const mapStateToProps = (state) => {
     return {
      loanData: state.loan,
-     userInfo: state.client
+     clientInfo: state.client
     }
   }
-  export default connect(mapStateToProps)(UserInfoFormContent)
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      storeClientInfo: (clientInfo) => {
+        dispatch(storeClientInfo(clientInfo))
+      }
+    }
+  }
+  export default connect(mapStateToProps,mapDispatchToProps)(ClientInfoFormContent)

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { storeFormInfo } from '../../redux/loanFormActions';
-import history from '../../history'
+import history from '../../history';
 import {
   InputAdornment,
   TextField,
@@ -59,78 +59,89 @@ class LoanInfoFormContent extends Component {
     basicRate = Math.ceil(basicRate);
 
     this.props.storeLoanInfo(this.state.loanData, basicRate);
-    history.push('/userInfoForm')
+    history.push('/clientInfoForm');
   };
   render() {
     return (
-      <form className="LoanInfoFormContent">
-        <Grid container justify="center">
-          <TextField
-            className="formInput"
-            id="propertyAdress"
-            label="Property Address"
-            value={this.state.loanData.propertyAddress}
-            onChange={this.handleChange('propertyAddress')}
-            fullWidth
-          />
+      <Grid
+        container
+        className="mainGrid"
+        direction="column"
+        alignItems="center"
+      >
+        <Grid item xs={8}>
+          <form className="LoanInfoFormContent">
+            <Grid container justify="center">
+              <TextField
+                className="formInput"
+                id="propertyAdress"
+                label="Property Address"
+                value={this.state.loanData.propertyAddress}
+                onChange={this.handleChange('propertyAddress')}
+                fullWidth
+              />
 
-          <FormControl fullWidth className="formInput">
-            <InputLabel htmlFor="loanAmnt">Loan Amount</InputLabel>
-            <Input
-              id="loanAmnt"
-              type="number"
-              value={this.state.loanData.loanAmnt}
-              onChange={this.handleChange('loanAmnt')}
-              startAdornment={
-                <InputAdornment position="start">$</InputAdornment>
-              }
-            />
-          </FormControl>
+              <FormControl fullWidth className="formInput">
+                <InputLabel htmlFor="loanAmnt">Loan Amount</InputLabel>
+                <Input
+                  id="loanAmnt"
+                  type="number"
+                  value={this.state.loanData.loanAmnt}
+                  onChange={this.handleChange('loanAmnt')}
+                  startAdornment={
+                    <InputAdornment position="start">$</InputAdornment>
+                  }
+                />
+              </FormControl>
 
-          <FormControl fullWidth className="formInput">
-            <InputLabel htmlFor="adornment-amount">Purchase Price</InputLabel>
-            <Input
-              id="purchasePrice"
-              type="number"
-              value={this.state.loanData.purchasePrice}
-              onChange={this.handleChange('purchasePrice')}
-              startAdornment={
-                <InputAdornment position="start">$</InputAdornment>
-              }
-            />
-          </FormControl>
-          <Grid item xs={6}>
-            <TextField
-              className="formInput"
-              id="buyer"
-              label="Buyer Name (optional)"
-              value={this.state.loanData.buyer}
-              onChange={this.handleChange('buyer')}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              className="formInput"
-              id="seller"
-              label="Seller Name (optional)"
-              value={this.state.loanData.seller}
-              onChange={this.handleChange('seller')}
-            />
-          </Grid>
-          <Grid item xs={12} style={{ textAlign: 'center' }}>
-            <Button onClick={this.handleSubmit}>Next</Button>
-          </Grid>
+              <FormControl fullWidth className="formInput">
+                <InputLabel htmlFor="adornment-amount">
+                  Purchase Price
+                </InputLabel>
+                <Input
+                  id="purchasePrice"
+                  type="number"
+                  value={this.state.loanData.purchasePrice}
+                  onChange={this.handleChange('purchasePrice')}
+                  startAdornment={
+                    <InputAdornment position="start">$</InputAdornment>
+                  }
+                />
+              </FormControl>
+              <Grid item xs={6}>
+                <TextField
+                  className="formInput"
+                  id="buyer"
+                  label="Buyer Name (optional)"
+                  value={this.state.loanData.buyer}
+                  onChange={this.handleChange('buyer')}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  className="formInput"
+                  id="seller"
+                  label="Seller Name (optional)"
+                  value={this.state.loanData.seller}
+                  onChange={this.handleChange('seller')}
+                />
+              </Grid>
+              <Grid item xs={12} style={{ textAlign: 'center' }}>
+                <Button onClick={this.handleSubmit}>Next</Button>
+              </Grid>
+            </Grid>
+          </form>
         </Grid>
-      </form>
+      </Grid>
     );
   }
 }
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-   loanData: state.loan,
-   userInfo: state.client
-  }
-}
+    loanData: state.loan,
+    clientInfo: state.client
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
